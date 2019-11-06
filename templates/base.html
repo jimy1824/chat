@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block page_title %}
+    {% endblock %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/allstyles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    {% block page_respective_style %}
+    {% endblock %}
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'home' %}">ChatApp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'chat_inbox' %}">Chat</a>
+                </li>
+                 {% if user.is_authenticated %}
+                     <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ user.first_name }} {{ user.last_name }}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                    </div>
+                </li>
+                {% else %}
+                     <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">LogIn</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+    {% block slider %}
+    {% endblock %}
+
+</header>
+{% block page_contant %}
+
+{% endblock %}
+<footer>
+    <p class="text-xl-center bg-dark text-white">@copyright jimy</p>
+</footer>
+
+<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/plugin.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/system.js' %}"></script>
+{% block page_respective_script %}
+{% endblock %}
+</body>
+</html>

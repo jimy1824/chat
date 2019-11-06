@@ -1,0 +1,48 @@
+
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% block page_title %}
+    <title>Login</title>
+{% endblock %}
+{% block page_contant %}
+
+    <section class="pt-5 pb-5">
+        <div class="container">
+            <h1 class="text-center text-capitalize pt-5">SignIn</h1>
+            <hr class="w-25 mx-auto pb-5">
+            <div class="w-50 mx-auto">
+
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Email:</label>
+                        {{ form.username }}
+                        {{ form.username.errors }}
+
+                    </div>
+                    <div class="form-group">
+
+                        <label for="{{ form.password.id_for_label }}">Password:</label>
+                        {{ form.password }}
+                        {{ form.password.errors }}
+                    </div>
+                    <button class="btn bg-primary text-white" type="submit">Login</button>
+                </form>
+                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                <br>
+                <a href="{% url 'signup' %}">if you dont have account plz click here to  register </a>
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
+
+
+
+
+
+
+

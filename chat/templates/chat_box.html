@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% block page_contant %}
+    <div class="container pt-5">
+    <div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-12">
+
+
+           <!-- Sidebar navigation -->
+
+      <!--/. Sidebar navigation -->
+
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12">
+             <div class="form-group">
+             <textarea  class="form-control" id="chat-log" cols="80" rows="16"></textarea>
+             </div>
+             <div class="form-group">
+             <input class="form-control" id="chat-message-input" type="text" size="80"/>
+             </div>
+             <input class="btn bg-primary float-right" id="chat-message-submit" type="button" value="Send"/>
+
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-12">
+            <ul class="list-group">
+                {% for  user in  users %}
+                 <li class="list-group-item" onclick="getuserid({{ user.id }})">{{ user.first_name }}</li>
+                {% endfor %}
+           </ul>
+        </div>
+    </div>
+    </div>
+
+
+<script>
+    var roomName ='1_1';
+    selected_user_id=null;
+
+    var chatSocket = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/chat/' + roomName + '/');
+
+    chatSocket.onmessage = function(e) {
+        var data = JSON.parse(e.data);
+        var message = data['message'];
+        document.querySelector('#chat-log').value += (message + '\n');
+    };
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+
+    document.querySelector('#chat-message-input').focus();
+    document.querySelector('#chat-message-input').onkeyup = function(e) {
+        if (e.keyCode === 13) {  // enter, return
+            document.querySelector('#chat-message-submit').click();
+        }
+    };
+
+    document.querySelector('#chat-message-submit').onclick = function(e) {
+        var messageInputDom = document.querySelector('#chat-message-input');
+        var message = messageInputDom.value;
+        console.log('user_id',selected_user_id);
+        chatSocket.send(JSON.stringify({
+            'message': message
+        }));
+
+        messageInputDom.value = '';
+    };
+
+
+    function getuserid(user_id) {
+           selected_user_id=user_id;
+        }
+</script>
+{% endblock %}
+
