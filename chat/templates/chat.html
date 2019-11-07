@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block page_contant %}
+    <div class="container-fluid pt-5">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+            <h2 class="text-center"> Contacts</h2>
+                <div style="position: relative; height: 100vh">
+                    <div class="card">
+                       <div style="height: 100vh;overflow-y: scroll;margin-bottom: 10px">
+                        <ul class="list-group list-group-flush">
+                            {% for  user in  users %}
+                                <a class="list-group-item"
+                                        href="{% url 'chat_inbox' user_id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+                            {% endfor %}
+                        </ul>
+                       </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h2 class="text-center"> New Messages</h2>
+                <div style="height: 100vh;overflow-y: scroll;margin-bottom: 10px">
+                {% if messages_list %}
+                {% for message in messages_list %}
+                <div class="card mt-1">
+                    <h5 class="card-header">{{ message.sender.first_name }}</h5>
+                    <div class="card-body">
+                        <p class="card-text">{{message.message  }}</p>
+                        <a style="float: right" href="{% url 'chat_inbox' user_id=user.id %}" class="btn btn-primary">read more</a>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                    <div class="card">
+                    <div class="card-body">
+                        <p class="card-text"> No mew message</p>
+                    </div>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
