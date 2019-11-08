@@ -11,7 +11,7 @@
                         <ul class="list-group list-group-flush">
                             {% for  user in  users %}
                                 <a class="list-group-item"
-                                        href="{% url 'chat_inbox' user_id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
+                                        href="{% url 'chat_inbox' selected_user_id=user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
                             {% endfor %}
                         </ul>
                        </div>
@@ -27,7 +27,7 @@
                     <h5 class="card-header">{{ message.sender.first_name }}</h5>
                     <div class="card-body">
                         <p class="card-text">{{message.message  }}</p>
-                        <a style="float: right" href="{% url 'chat_inbox' user_id=user.id %}" class="btn btn-primary">read more</a>
+                        <a style="float: right" href="{% url 'chat_inbox' selected_user_id=message.sender.id %}" class="btn btn-primary">read more</a>
                     </div>
                 </div>
                 {% endfor %}

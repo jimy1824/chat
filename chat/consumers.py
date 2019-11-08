@@ -1,12 +1,15 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
+from chat.models import Chat
+from chat.serializers import ChatSerializer
+
 
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.room_name = self.scope['url_route']['kwargs']['room_name']
         self.room_group_name = 'chat_%s' % self.room_name
-
+        sender,receiver=self.room_name.split('_')
         # Join room group
         await self.channel_layer.group_add(
             self.room_group_name,
@@ -16,7 +19,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             {
                 'type': 'chat_message',
-                'message': 'hjgDhghasgdfhj'
+                'message':chat_onload()
             }
         )
 
@@ -51,3 +54,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.send(text_data=json.dumps({
             'message': message
         }))
+
+
+
+def chat_onload():
+    # serializers_class = ChatSerializer
+    chat_list = Chat.objects.all()
+    # chat = serializers_class(chat, many=True).data
+    messages=[]
+    for chat in chat_list:
+        messages.append(chat.message)
+    return messages
