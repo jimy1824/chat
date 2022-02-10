@@ -1,4 +1,4 @@
-Django==2.2.6
+Django==2.2.27
 Pillow==6.2.1
 python-decouple==3.1
 pytz==2019.3
